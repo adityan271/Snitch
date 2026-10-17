@@ -3,14 +3,14 @@ import { body, validationResult } from "express-validator";
 export const registerValidator = [
   body("email")
     .exists()
-    .withMessage("Email is required")
+    .withMessage("Email is required").bail()
     .trim()
     .isEmail()
     .withMessage("Enter a valid Email address"),
 
   body("name")
     .exists()
-    .withMessage("Name is required")
+    .withMessage("Name is required").bail()
     .isString()
     .withMessage("Name must be a String")
     .trim()
@@ -19,7 +19,7 @@ export const registerValidator = [
 
   body("password")
     .exists()
-    .withMessage("Password is required")
+    .withMessage("Password is required").bail()
     .isString()
     .withMessage("Password must be a String")
     .trim()
