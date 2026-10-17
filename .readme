@@ -1,1 +1,23 @@
 Snitch website
+
+Functional Requirements
+
+1. User Can See all the Products.
+2. User can add any product into the Cart.
+3. A User can have one cart at any moment of the time.
+4. Adding the same product into the cart increase the quantity instead of adding another entry for the same product.
+5. User will Add the product with Size (e.g. XS, S, M, L, XL, XXL) into the Cart.
+6. If Any size is currently out of stock show that size to user but label it Unavailable.
+7. Seller can Unlist any product.
+8. A Seller can list all the products on the Dashboard.
+9. In the Cart Store the Reference of the product with size and quantity. Not the entire copy of the product.
+10. If a user request to the seller API then return status code 403
+11. If a guest user requested on a protected API then return 401 status code
+
+Out of Scope
+
+1. Live tracking of the Order
+2. Payment Gateway
+3. Refund Policy
+4. Customer Support
+5. Return Feature
