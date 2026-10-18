@@ -181,3 +181,20 @@ export async function refresh(req, res) {
     },
   });
 }
+
+export async function getMe(req, res) {
+  const { userId, role } = req.user;
+
+  const user = await userModel.findById(userId);
+
+  res.status(200).json({
+    message: "User data fetched successfully",
+    data: {
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    },
+  });
+}
