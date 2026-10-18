@@ -28,18 +28,23 @@ export async function register(req, res) {
   });
 
   const accessToken = createAccessToken({
-    userId: _id,
+    userId: user._id,
     role: user.role,
   });
 
   const refreshToken = createRefreshToken({
-    userId: _id,
+    userId: user._id,
     role: user.role,
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
   });
+
+  await userModel.findByIdAndUpdate(user._id,{
+    refreshToken: refreshToken
+  })
+
 
   res.status(201).json({
     message: "User Registered Successfully",
