@@ -24,3 +24,7 @@ export function createRefreshToken({ userId, role }) {
   );
   return refreshToken;
 }
+
+export function readRefreshToken(refreshToken) {
+  return jwt.verify(readRefreshToken, config.REFRESH_TOKEN_SECRET);
+}
