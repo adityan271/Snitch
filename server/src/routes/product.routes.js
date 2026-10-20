@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { createProductValidator } from "../validators/product.validator.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -11,6 +13,13 @@ const router = Router();
  * req.body=>{title,description:price:{amount,currency},sizes:[{size,stock},{si–ze,stock}]}
  */
 
-router.post("/")
+router.post("/", authenticate, (req, res, next) => {
+  if (req.user.role !== "seller") {
+    return statu(403).json({
+      message: "User is not authorized to create products",
+    });
+  }
+  next();
+}, );
 
 export default router;
