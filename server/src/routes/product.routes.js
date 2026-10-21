@@ -42,11 +42,12 @@ router.post(
   upload.array("images"),
   //------------ parse the complex data like objects and arrays into json --------
   (req, res, next) => {
-    req.body.price = JSON.parse(req.body.price);
-    req.body.sizes = JSON.parse(req.body.sizes);
+    req.body?.price && (req.body.price = JSON.parse(req.body.price));
+    req.body?.sizes && (req.body.sizes = JSON.parse(req.body.sizes));
 
     next();
   },
+  createProductValidator,
   createProduct,
 );
 
