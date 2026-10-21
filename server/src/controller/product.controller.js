@@ -4,6 +4,6 @@ export async function createProduct(req,res) {
     console.log(req.body)
 
     res.status(200).json({
-        message:"Dummyb responce"
+        message:"Dummy responce"
     })
 }
