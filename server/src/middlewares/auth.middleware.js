@@ -9,7 +9,9 @@ export function authenticate(req, res, next) {
     });
   }
 
-  const [scheme, accessToken, ...extraParts] = authorization.trim().split(/\s+/);
+  const [scheme, accessToken, ...extraParts] = authorization
+    .trim()
+    .split(/\s+/);
   if (
     scheme?.toLowerCase() !== "bearer" ||
     !accessToken ||

@@ -5,7 +5,13 @@ import { createProduct } from "../controller/product.controller.js";
 
 import multer from "multer";
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    files: 5,
+    fileSize: 1 * 1024 * 1024, // 1MB
+  },
+});
 
 const router = Router();
 
@@ -20,7 +26,9 @@ const router = Router();
 
 router.post(
   "/",
+  //------------ check, is user authenticate-------------
   authenticate,
+  //------------ check the role is seller or not --------
   (req, res, next) => {
     if (req.user.role !== "seller") {
       return res.status(403).json({
@@ -29,7 +37,10 @@ router.post(
     }
     next();
   },
+  //------------ required for reading the data from req.body
+  //  if the formate is form-data(multipart-form-----------
   upload.array("images"),
+  //------------ parse the complex data like objects and arrays into json --------
   (req, res, next) => {
     req.body.price = JSON.parse(req.body.price);
     req.body.sizes = JSON.parse(req.body.sizes);
