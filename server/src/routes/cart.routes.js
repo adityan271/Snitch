@@ -1,4 +1,7 @@
 import { Router } from "express";
+import { addToCartValidator } from "../validators/cart.validator.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { addToCart, getCart } from "../controller/cart.controller.js";
 
 const router = Router();
 
@@ -8,7 +11,14 @@ const router = Router();
  * @access protected
  * @description Add an product to the user's cart
  */
+// req.body = { productId,quantity,size}
+router.post("/", authenticate, addToCartValidator, addToCart);
 
-router.post("/");
-
+/**
+ * @method GET
+ * @route /api/cart
+ * @access protected
+ * @description Get the user's cart
+ */
+router.get("/", authenticate, getCart);
 export default router;
