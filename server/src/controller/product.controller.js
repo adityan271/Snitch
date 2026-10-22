@@ -35,3 +35,14 @@ export async function createProduct(req, res) {
     },
   });
 }
+
+export async function listAllProducts(req, res) {
+  const products = await productModel.find({ published: true });
+
+  res.status(200).json({
+    message: "Products data fetched successfully",
+    data: {
+      products,
+    },
+  });
+}
