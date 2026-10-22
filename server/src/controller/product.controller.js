@@ -12,9 +12,26 @@ export async function createProduct(req, res) {
       buffer: req.files[i].buffer,
       fileName: req.files[i].originalname,
     });
+
+    filesUrls.push(responce.url);
   }
 
-  res.status(200).json({
-    message: "Dummy responce",
+  const product = await productModel.create({
+    title: req.body.title,
+    description: req.body.description,
+    price: {
+      amount: req.body.price.amount,
+      currency: req.body.price.currency,
+    },
+    sizes: req.body.sizes,
+    images: filesUrls,
+    seller: req.user.userId,
+  });
+
+  res.status(201).json({
+    message: "Product created successfully",
+    data: {
+      product,
+    },
   });
 }
