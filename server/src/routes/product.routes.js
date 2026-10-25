@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createProductValidator,
   unlistProductValidator,
+  listProductValidator,
 } from "../validators/product.validator.js";
 import {
   authenticate,
@@ -11,6 +12,8 @@ import {
   createProduct,
   listAllProducts,
   unlistProducts,
+  listProducts,
+  listAllProductsToSeller
 } from "../controller/product.controller.js";
 
 import multer from "multer";
@@ -63,6 +66,19 @@ router.post(
 router.get("/", authenticate, listAllProducts);
 
 /**
+ * @method GET
+ * @route /api/product/seller
+ * @description Read all the products from the DB
+ * @access seller
+ */
+router.get(
+  "/seller",
+  authenticate,
+  authenticateSeller,
+  listAllProductsToSeller,
+);
+
+/**
  * @method PATCH
  * @route /api/product/unlist/:id
  * @description Unlist products from the DB by its IDs
@@ -74,6 +90,20 @@ router.patch(
   authenticateSeller,
   unlistProductValidator,
   unlistProducts,
+);
+
+/**
+ * @method PATCH
+ * @route /api/product/unlist/:id
+ * @description list products from the DB by its IDs
+ * @access seller
+ */
+router.patch(
+  "/unlist/:id",
+  authenticate,
+  authenticateSeller,
+  listProductValidator,
+  listProducts,
 );
 
 export default router;
