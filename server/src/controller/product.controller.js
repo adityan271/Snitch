@@ -5,16 +5,16 @@ export async function createProduct(req, res) {
   console.log(req.body);
   console.log(req.files);
 
-  const filesUrls = [];
+  const responses = await Promise.all(
+    req.files.map((file) =>
+      uploadFile({
+        buffer: file.buffer,
+        fileName: file.originalname,
+      }),
+    ),
+  );
 
-  for (let i = 0; i < req.files.length; i++) {
-    const responce = await uploadFile({
-      buffer: req.files[i].buffer,
-      fileName: req.files[i].originalname,
-    });
-
-    filesUrls.push(responce.url);
-  }
+  const filesUrls = responses.map((response) => response.url);
 
   const product = await productModel.create({
     title: req.body.title,
