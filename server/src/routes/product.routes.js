@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { createProductValidator } from "../validators/product.validator.js";
-import { authenticate } from "../middlewares/auth.middleware.js";
+import {
+  authenticate,
+  authenticateSeller,
+} from "../middlewares/auth.middleware.js";
 import {
   createProduct,
   listAllProducts,
@@ -32,14 +35,7 @@ router.post(
   //------------ check, is user authenticate-------------
   authenticate,
   //------------ check the role is seller or not --------
-  (req, res, next) => {
-    if (req.user.role !== "seller") {
-      return res.status(403).json({
-        message: "User is not authorized to create products",
-      });
-    }
-    next();
-  },
+  authenticateSeller,
   //------------ required for reading the data from req.body
   //  if the formate is form-data(multipart-form-----------
   upload.array("images"),
@@ -61,5 +57,13 @@ router.post(
  * @access user
  */
 router.get("/", authenticate, listAllProducts);
+
+/**
+ * @method PATCH
+ * @route /api/product/unlist/:id
+ * @description Unlist products from the DB by its IDs
+ * @access seller
+ */
+router.patch("/unlist/:id", authenticate, authenticateSeller);
 
 export default router;
